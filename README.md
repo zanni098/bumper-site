@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bumper — marketing site
 
-## Getting Started
+Landing page and sign-up flow for **Bumper**, a free motion-graphics tool for
+YouTubers. Built for the Contra [#FlowstepChallenge](https://contra.com/community/topic/flowstepchallenge/guidelines).
 
-First, run the development server:
+**Product prototype:** [Bumper in Flowstep](https://app.flowstep.ai/prototype?activeFileId=22ceed96-9211-4b25-9fb2-81c452733386)
+**Design canvas:** [Flowstep file](https://app.flowstep.ai/file?activeFileId=22ceed96-9211-4b25-9fb2-81c452733386)
+
+---
+
+## The idea
+
+Every YouTube video needs the same small animated pieces — a lower third when
+someone speaks, a section card between chapters, a subscribe bump, an end
+screen. Today you either pay a monthly motion-graphics subscription, wrestle
+with After Effects, or generate something with an AI video tool that charges
+credits per second.
+
+Bumper's argument is that **motion graphics were never a generation problem —
+they're a rendering problem.** AI video tools meter you by the second because
+they're running a diffusion model on a GPU. Bumper's graphics are HyperFrames
+compositions: plain HTML and CSS rendered deterministically, frame by frame. No
+GPU inference means there is nothing to meter, so exports can be free.
+
+## Routes
+
+| Route     | What it is                                                   |
+| --------- | ------------------------------------------------------------ |
+| `/`       | Landing page — the argument, presets, editor, export formats |
+| `/signup` | Sign-up, which hands off to the product prototype            |
+
+### About the sign-up
+
+It is a **prototype gate, not real auth**. It asks for an email only — no
+password is ever requested — validates the format client-side, and hands off to
+the Flowstep prototype. Nothing is stored, transmitted, or sent to any backend,
+and the page says so in plain language. There is no database and no API route.
+
+## Design
+
+The site deliberately shares its tokens with the product UI so the two read as
+one thing: `#0B0B0D` base, `#131317` panels, hairline `#2A2A32` borders, and a
+strictly rationed `#D6FF4B` lime that only ever appears on the primary action,
+the playhead, active states and the render-complete state.
+
+The structural idea is that **the page is a timeline**. A fixed left rail
+carries timecodes with a lime playhead that tracks scroll progress, sections
+read as clips, and every number on the page is set in JetBrains Mono — the same
+typographic rule the product uses.
+
+- **Display:** Bricolage Grotesque
+- **Body:** Archivo
+- **Mono:** JetBrains Mono
+
+Motion respects `prefers-reduced-motion`. The hero lower-third animates on the
+product's own easing curve, `cubic-bezier(0.16, 1, 0.3, 1)`.
+
+## Stack
+
+- Next.js 16 (App Router, Turbopack)
+- React 19
+- Plain CSS — no UI framework, no utility classes
+- `next/font` for self-hosted fonts, so no external font requests
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Vercel from this repository. Pushes to `main` deploy automatically.
