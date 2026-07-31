@@ -1,0 +1,640 @@
+{
+  "topic": "The warship that sank because nobody dared tell the king — Vasa, 1628",
+  "channel_type": "history",
+  "style": "Editorial Motion Graphics",
+  "through_line": {
+    "name": "A single gilded lion-head gun port lid",
+    "asset": "lionlid",
+    "progression": "Introduced as a corroded relic in the cold open, then followed forward from raw lime log to carved face to gilded lid to the hatch that is deliberately opened for a ceremonial salute — the exact hole the sea comes through. It sinks with the ship, is sealed in silt, and is lifted again in 1961.",
+    "resolution": "The same lid, gold still legible, lit under museum glass in the payoff — the object that killed the ship is the object that made her famous."
+  },
+  "arc": {
+    "hook": 1,
+    "build": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "turn": 16,
+    "payoff": 30
+  },
+  "blocks": [
+    {
+      "n": 1,
+      "arc_role": "hook",
+      "location": "wreck",
+      "vo_line": "She was the most powerful warship in Europe. She sailed thirteen hundred metres, rolled onto her side and sank, with every man aboard already knowing she would.",
+      "through_line_state": "Corroded and half-buried in silt, gold leaf flaking off the lion's face.",
+      "shots": [
+        "ECU low — the lion lid's blind gilded eye in green dark, silt drifting across it",
+        "WIDE high — the whole wreck on the seabed, masts snapped, scale bar of light from above",
+        "MEDIUM lateral — a row of open gun ports like missing teeth along the hull",
+        "CU overhead — a bronze cannon muzzle furred with sediment",
+        "WIDE low — the hull's carved stern rising into black water, gold catching one shaft of light"
+      ],
+      "assets_used": [
+        "wreck",
+        "lionlid",
+        "cannon"
+      ]
+    },
+    {
+      "n": 2,
+      "arc_role": "build",
+      "location": "warroom",
+      "vo_line": "Stockholm, sixteen twenty-five: Sweden is eleven years into a war that will last thirty. King Gustavus Adolphus wants a navy built to frighten every rival on the Baltic.",
+      "through_line_state": "A chalk sketch of the lion face lies on the corner of the campaign table.",
+      "shots": [
+        "MEDIUM lateral — candlelit campaign table, a map of the Baltic weighted with shot",
+        "CU overhead — the king's hand dragging a marker across the map",
+        "WIDE low — the tent interior, banners, officers standing back in shadow",
+        "ECU — the chalk lion sketch at the table's edge, half under a dispatch",
+        "MEDIUM high — the map from above, Sweden ringed, the sea empty of ships"
+      ],
+      "assets_used": [
+        "warroom",
+        "king",
+        "lionlid",
+        "ledger"
+      ]
+    },
+    {
+      "n": 3,
+      "arc_role": "build",
+      "location": "warroom",
+      "vo_line": "He orders four ships, and the largest will carry his own family name: Vasa. Sixty-nine metres of oak, ten sails, more carved gold than any hull in Europe.",
+      "through_line_state": "The lid count is written into the specification sheet for the first time.",
+      "shots": [
+        "CU lateral — a quill signing the contract, wax seal pressed",
+        "MEDIUM low — the king turning from the table, back to camera",
+        "ECU overhead — the spec sheet, a column of numbers, the lid count circled",
+        "WIDE lateral — a courier taking the sealed order out through the tent flap",
+        "MEDIUM high — the order travelling: a rider, then a sail, then a quay"
+      ],
+      "assets_used": [
+        "warroom",
+        "king",
+        "ledger",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 4,
+      "arc_role": "build",
+      "location": "timberyard",
+      "vo_line": "A thousand oaks come down for her, and the shipwrights work entirely by eye. Nobody has drawings, calculations, or any reliable way to predict what actually floats.",
+      "through_line_state": "A raw lime log is set aside — the blank the lion will be cut from.",
+      "shots": [
+        "WIDE high — a felled oak forest, stumps in rows, logs dragged by oxen",
+        "CU lateral — a two-man sawpit, blade biting, sawdust falling",
+        "ECU — a shipwright's thumb held up against a curved rib, measuring by eye",
+        "MEDIUM low — the raw lime log leaning alone against a fence",
+        "WIDE lateral — the timber yard entire, stacks receding into fog"
+      ],
+      "assets_used": [
+        "timberyard",
+        "jakobsson",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 5,
+      "arc_role": "build",
+      "location": "timberyard",
+      "vo_line": "The master shipwright is Henrik Hybertsson: Dutch, experienced, and dying. He falls ill in sixteen twenty-six, never sees the keel finished, and leaves his young assistant the entire project.",
+      "through_line_state": "The lion is roughed out — a blank muzzle, no face yet.",
+      "shots": [
+        "MEDIUM lateral — the master shipwright coughing over a plan he cannot finish",
+        "CU high — his hands going still on the timber",
+        "ECU — the roughed-out lion blank, chisel marks, no eyes",
+        "MEDIUM low — Jakobsson in the doorway, being handed the ledger",
+        "WIDE high — the empty keel in its cradle, scaffolding half-built around it"
+      ],
+      "assets_used": [
+        "timberyard",
+        "jakobsson",
+        "lionlid",
+        "ledger"
+      ]
+    },
+    {
+      "n": 6,
+      "arc_role": "build",
+      "location": "shipyard",
+      "vo_line": "Hein Jakobsson has never designed a warship alone. He also has a king writing letters from a battlefield in Prussia, asking why the ship is not finished yet.",
+      "through_line_state": "Unfinished lids stack up in the yard, faces still blank.",
+      "shots": [
+        "MEDIUM lateral — Jakobsson alone at a trestle, ledger open, nothing written",
+        "ECU overhead — an unopened letter with a broken royal seal",
+        "WIDE low — the growing hull in its cradle, ribs like a ribcage",
+        "CU high — a stack of blank lion lids under a tarpaulin",
+        "MEDIUM low — Jakobsson looking up at the hull, dwarfed by it"
+      ],
+      "assets_used": [
+        "shipyard",
+        "jakobsson",
+        "lionlid",
+        "ledger"
+      ]
+    },
+    {
+      "n": 7,
+      "arc_role": "build",
+      "location": "warroom",
+      "vo_line": "Then the king changes the specification: a second gun deck, sixty-four bronze cannon instead of thirty-six. The hull is already built, and the keel cannot be widened.",
+      "through_line_state": "The required lid count doubles — struck out and rewritten on the spec sheet.",
+      "shots": [
+        "ECU overhead — the number thirty-six struck through, sixty-four written above it",
+        "MEDIUM lateral — the king dictating, not looking up",
+        "WIDE high — a diagram of the hull gaining a whole second row of ports",
+        "CU low — Jakobsson reading the revision, jaw set",
+        "MEDIUM high — the keel from above, unchanged and unchangeable"
+      ],
+      "assets_used": [
+        "warroom",
+        "king",
+        "jakobsson",
+        "ledger",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 8,
+      "arc_role": "build",
+      "location": "gundeck",
+      "vo_line": "Two decks of guns means enormous weight high above the waterline, where every tonne pushes sideways on the mast. Nobody in Sweden can yet calculate that force.",
+      "through_line_state": "A finished lid is held up against the hull to check the fit.",
+      "shots": [
+        "WIDE lateral — the lower gun deck, a corridor of cannon vanishing aft",
+        "CU low — a cannon's trunnion settling into its carriage, timber flexing",
+        "ECU — a plumb line hanging, swinging, refusing to settle",
+        "MEDIUM high — a lid offered up to an empty port, light behind it",
+        "WIDE low — the upper gun deck directly above, doubling the same weight"
+      ],
+      "assets_used": [
+        "gundeck",
+        "cannon",
+        "lionlid",
+        "gunner"
+      ]
+    },
+    {
+      "n": 9,
+      "arc_role": "build",
+      "location": "gundeck",
+      "vo_line": "The bronze guns alone weigh over seventy tonnes. They sit behind hatches cut low in the hull, each one sealed by a lid carved as a gilded lion's head.",
+      "through_line_state": "First complete lid: mounted in its port, hinged, closed.",
+      "shots": [
+        "ECU lateral — the lid swinging shut, the lion's face arriving in frame",
+        "MEDIUM low — a gun crew heaving a bronze barrel into position",
+        "CU overhead — the hinge pin driven home with a mallet",
+        "WIDE lateral — a row of closed lion lids down the hull's inside",
+        "MEDIUM high — the same row seen from outside the hull, gold against black tar"
+      ],
+      "assets_used": [
+        "gundeck",
+        "lionlid",
+        "cannon",
+        "gunner"
+      ]
+    },
+    {
+      "n": 10,
+      "arc_role": "build",
+      "location": "carvingshop",
+      "vo_line": "Roughly seven hundred sculptures are carved for her: emperors, mermaids, warriors, lions, painted in twenty colours and gilded. This ship is not a weapon, it is an argument.",
+      "through_line_state": "The lid is gilded — gold leaf laid on and burnished until it glows.",
+      "shots": [
+        "WIDE high — the carving shop, benches crowded with half-finished figures",
+        "ECU — gold leaf lifted on a brush and laid onto the lion's brow",
+        "CU lateral — a mermaid's face emerging under a gouge",
+        "MEDIUM low — pigment pots in twenty colours, ranked on a shelf",
+        "WIDE lateral — finished sculptures crated and stacked to the roof"
+      ],
+      "assets_used": [
+        "carvingshop",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 11,
+      "arc_role": "build",
+      "location": "carvingshop",
+      "vo_line": "Every carving is oak and lime, and every carving sits above the waterline. The propaganda that makes her terrifying is the same propaganda that makes her top-heavy.",
+      "through_line_state": "The lid is weighed — the scale pan drops hard.",
+      "shots": [
+        "CU overhead — the gilded lid dropped onto a scale pan, the beam slamming down",
+        "MEDIUM lateral — crates of carvings being hoisted upward, always upward",
+        "ECU low — a chalked waterline on the hull, every sculpture above it",
+        "WIDE low — the stern castle rising, tier on tier of gold",
+        "MEDIUM high — the ship in profile, the top half visibly heavier than the bottom"
+      ],
+      "assets_used": [
+        "carvingshop",
+        "shipyard",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 12,
+      "arc_role": "build",
+      "location": "ballasthold",
+      "vo_line": "Down in the hold they load one hundred and twenty tonnes of stone as ballast, and it is not enough. There is no room for more without flooding the lower deck.",
+      "through_line_state": "Weighed against a ballast stone — the lid wins.",
+      "shots": [
+        "WIDE low — the hold, lantern-lit, men passing stones hand to hand",
+        "ECU — a granite ballast stone dropped onto the pile, dust jumping",
+        "CU high — bilge water already licking the top of the stone bed",
+        "MEDIUM lateral — a man measuring the remaining gap with his forearm: none",
+        "WIDE high — the hold from the hatch above, full to the beams"
+      ],
+      "assets_used": [
+        "ballasthold",
+        "ballaststone",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 13,
+      "arc_role": "build",
+      "location": "ballasthold",
+      "vo_line": "That is the trap: add ballast and the lower gun ports sink toward the sea. Leave it out, and she stands far too tall to survive a strong breeze.",
+      "through_line_state": "A waterline is chalked on the hull — the lid sits barely above it.",
+      "shots": [
+        "ECU lateral — a chalk line drawn along the hull's inside, just under a port",
+        "MEDIUM low — the same port from inside, the lid a hand's width above the mark",
+        "CU overhead — a diagram: stones down, ports down; stones out, mast tips",
+        "WIDE lateral — the hold and the gun deck stacked in one cutaway frame",
+        "MEDIUM high — the chalk line, wiped away by a passing shoulder"
+      ],
+      "assets_used": [
+        "ballasthold",
+        "gundeck",
+        "lionlid",
+        "ballaststone"
+      ]
+    },
+    {
+      "n": 14,
+      "arc_role": "build",
+      "location": "quay",
+      "vo_line": "By the summer of sixteen twenty-eight she is finished, moored at the palace quay, and she is genuinely magnificent. She is also the tallest, narrowest mistake in the Baltic.",
+      "through_line_state": "Gleaming, closed, flawless — polished for display.",
+      "shots": [
+        "WIDE low — the finished ship at the quay, ten sails furled, gold everywhere",
+        "ECU — the lion lid polished to a mirror, a cloth withdrawing from frame",
+        "MEDIUM lateral — citizens on the quay stopping to stare upward",
+        "CU high — the masts from the deck, absurdly tall against cloud",
+        "WIDE high — the ship from above, narrow as a blade, top-heavy as a wedding cake"
+      ],
+      "assets_used": [
+        "quay",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 15,
+      "arc_role": "build",
+      "location": "quay",
+      "vo_line": "In August, Vice-Admiral Klas Fleming comes aboard to run the standard stability trial. Thirty men are ordered to run together from one rail to the other and back.",
+      "through_line_state": "Closed and dry as the test begins.",
+      "shots": [
+        "MEDIUM low — Fleming crossing the quay toward the gangplank, coat, gorget, unreadable face",
+        "WIDE lateral — thirty men mustering on the stones below the hull",
+        "ECU — the closed lion lid at eye level as the men file past it",
+        "CU high — boots going up the gangplank in sequence",
+        "MEDIUM high — the quay emptying as the last man boards"
+      ],
+      "assets_used": [
+        "quay",
+        "fleming",
+        "lionlid",
+        "gunner"
+      ]
+    },
+    {
+      "n": 16,
+      "arc_role": "turn",
+      "location": "upperdeck",
+      "vo_line": "They manage three runs. On the third the ship heels so far that Fleming stops the test, because he can see she is about to roll over at anchor.",
+      "through_line_state": "The lid dips toward the water as she heels — closer than it has ever been.",
+      "shots": [
+        "WIDE low — the deck canting hard, horizon swinging up out of frame",
+        "ECU — the lion lid swinging down toward the water, its reflection rising to meet it",
+        "CU lateral — Fleming's hand going up: stop",
+        "MEDIUM high — the men frozen mid-deck, gripping the rail, no one speaking",
+        "WIDE lateral — the ship rocking back upright, slowly, too slowly"
+      ],
+      "assets_used": [
+        "upperdeck",
+        "fleming",
+        "lionlid",
+        "gunner"
+      ]
+    },
+    {
+      "n": 17,
+      "arc_role": "build",
+      "location": "upperdeck",
+      "vo_line": "This is the moment the disaster becomes a choice, because the evidence is complete and the men who need it are standing on that deck. The report is never sent.",
+      "through_line_state": "Closed again, dripping.",
+      "shots": [
+        "ECU — water running off the lion's face, back into the harbour",
+        "MEDIUM lateral — Fleming and Jakobsson not looking at each other",
+        "CU high — a blank sheet of paper on the chart table, no ink on it",
+        "WIDE low — the men filing below deck, the trial over",
+        "MEDIUM high — the empty deck, level again, as if nothing happened"
+      ],
+      "assets_used": [
+        "upperdeck",
+        "fleming",
+        "jakobsson",
+        "lionlid",
+        "ledger"
+      ]
+    },
+    {
+      "n": 18,
+      "arc_role": "build",
+      "location": "warroom",
+      "vo_line": "The king is nine hundred kilometres away, losing a war, and writing impatient letters. Telling him his flagship cannot float is not a career move anyone wants to make.",
+      "through_line_state": "A carved sample lid sits on the king's table as a paperweight, unmentioned in the letter beside it.",
+      "shots": [
+        "ECU overhead — a letter being written, the words hard and fast",
+        "WIDE high — a battlefield map bristling with counters, Sweden losing ground",
+        "MEDIUM lateral — the king's silhouette against tent canvas, back to camera",
+        "CU low — the sample lion lid holding down a corner of the map, gold dulled by candle smoke",
+        "MEDIUM high — the sealed letter travelling north over grey water"
+      ],
+      "assets_used": [
+        "warroom",
+        "king",
+        "ledger",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 19,
+      "arc_role": "build",
+      "location": "quay",
+      "vo_line": "Sunday, the tenth of August, sixteen twenty-eight: Stockholm's waterfront is packed and foreign ambassadors have been invited. About one hundred and fifty people are aboard, many of them crew families.",
+      "through_line_state": "Polished again for the ceremony.",
+      "shots": [
+        "WIDE high — the packed waterfront, hats and banners, church towers behind",
+        "MEDIUM lateral — ambassadors in foreign dress being shown to the front",
+        "CU low — families crossing the gangplank, baskets and bundles",
+        "ECU — a cloth going over the lion lid one last time, then away",
+        "WIDE low — the ship from the water, crowded rails, everyone waving"
+      ],
+      "assets_used": [
+        "quay",
+        "lionlid",
+        "gunner"
+      ]
+    },
+    {
+      "n": 20,
+      "arc_role": "build",
+      "location": "gundeck",
+      "vo_line": "She is warped along the waterfront on ropes, then sets four sails. To salute the city, the gun port lids are opened and the cannon are run out.",
+      "through_line_state": "OPENED — the lid swings up and is hooked back.",
+      "shots": [
+        "MEDIUM low — ropes straining, the hull creeping along the quay",
+        "WIDE lateral — four sails dropping and filling in sequence",
+        "ECU — the lion lid swung upward and hooked open, daylight flooding the port",
+        "CU high — a bronze muzzle running out through the open port",
+        "WIDE high — the whole hull from above, every lower port now a black square"
+      ],
+      "assets_used": [
+        "gundeck",
+        "lionlid",
+        "cannon",
+        "gunner"
+      ]
+    },
+    {
+      "n": 21,
+      "arc_role": "build",
+      "location": "gundeck",
+      "vo_line": "Remember those gilded lion lids. They are standing wide open now, and the lower row of them sits barely one metre above the flat grey harbour water.",
+      "through_line_state": "Open, one metre above the surface.",
+      "shots": [
+        "ECU lateral — from inside the gun deck, the open port framing flat grey water a metre below",
+        "MEDIUM low — the deck's whole row of open ports, daylight in each one",
+        "CU overhead — the gap between port sill and sea, measured by the eye",
+        "MEDIUM lateral — the hooked-open lid seen from within, gold bright, doing nothing at all",
+        "WIDE low — the gun deck corridor, every port a bright square, water level with the sills"
+      ],
+      "assets_used": [
+        "gundeck",
+        "lionlid",
+        "cannon"
+      ]
+    },
+    {
+      "n": 22,
+      "arc_role": "build",
+      "location": "openwater",
+      "vo_line": "She clears the sheltered water below the cliffs, and the first gust catches her sails. She heels hard, rights herself slowly, and the crowd on shore keeps cheering.",
+      "through_line_state": "The lid tilts toward the surface and back.",
+      "shots": [
+        "WIDE low — the ship emerging from the cliff's wind shadow",
+        "CU high — sails snapping taut all at once",
+        "ECU — the open lid swinging down toward the water, then lifting away",
+        "MEDIUM lateral — the crowd on shore, still cheering, seeing nothing wrong",
+        "WIDE high — the ship righting, mast describing a slow arc against cloud"
+      ],
+      "assets_used": [
+        "openwater",
+        "lionlid",
+        "quay"
+      ]
+    },
+    {
+      "n": 23,
+      "arc_role": "build",
+      "location": "openwater",
+      "vo_line": "The second gust is not stronger, and it does not need to be. She lies over onto her side, and the open lower gun ports go under the waterline.",
+      "through_line_state": "Goes under.",
+      "shots": [
+        "MEDIUM low — the second gust arriving as a dark line across the water",
+        "WIDE lateral — the hull laying over, decks tipping toward vertical",
+        "ECU — the open lion lid meeting the surface and passing through it",
+        "CU high — the sea pouring over the port sill in a smooth sheet",
+        "WIDE high — the ship on her side, sails flat on the water"
+      ],
+      "assets_used": [
+        "openwater",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 24,
+      "arc_role": "build",
+      "location": "gundeck",
+      "vo_line": "Water enters through the lion mouths and runs downhill to the low side. That makes her lean further, which opens the next port, and lets still more sea inside.",
+      "through_line_state": "Water pours through the lion's open mouth.",
+      "shots": [
+        "ECU lateral — water surging through the lion-mouthed port, gold under green",
+        "WIDE low — the gun deck tilting, water sheeting across it",
+        "CU high — a cannon breaking its lashings and sliding downhill",
+        "MEDIUM lateral — the gun crew scrambling upslope, hands on beams",
+        "WIDE high — a cutaway of the hull, the loop drawn plainly: in, down, over, in"
+      ],
+      "assets_used": [
+        "gundeck",
+        "lionlid",
+        "cannon",
+        "gunner"
+      ]
+    },
+    {
+      "n": 25,
+      "arc_role": "build",
+      "location": "openwater",
+      "vo_line": "That loop has no exit. The most expensive object in Sweden goes down within twenty minutes, thirteen hundred metres from where she started, taking roughly thirty people with her.",
+      "through_line_state": "The lid sinks past, still hooked open.",
+      "shots": [
+        "WIDE high — the ship settling, masts still above water, sails soaked flat",
+        "MEDIUM lateral — small boats rowing hard from the shore",
+        "ECU — the hooked-open lid sliding down past camera into the dark",
+        "CU high — the last mast tip going under, water closing over it",
+        "WIDE low — flat water, floating debris, thirteen hundred metres of harbour behind"
+      ],
+      "assets_used": [
+        "openwater",
+        "lionlid",
+        "quay"
+      ]
+    },
+    {
+      "n": 26,
+      "arc_role": "build",
+      "location": "upperdeck",
+      "vo_line": "The inquest is immediate and furious. Officers blame the shipwrights, who point at a specification nobody is willing to question, because it came from the king himself.",
+      "through_line_state": "A salvaged lid leans against the chamber wall as evidence nobody examines.",
+      "shots": [
+        "MEDIUM lateral — an inquest chamber, officers seated in a hard row",
+        "CU low — the surviving captain answering, hands flat on the table",
+        "ECU overhead — a clerk's page, names listed, one column left blank",
+        "MEDIUM high — the waterlogged lion lid propped against the panelling, unlooked at",
+        "WIDE high — the chamber from above, everyone pointing somewhere else"
+      ],
+      "assets_used": [
+        "upperdeck",
+        "fleming",
+        "jakobsson",
+        "ledger",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 27,
+      "arc_role": "build",
+      "location": "warroom",
+      "vo_line": "Nobody is punished, and the verdict records only that the ship was badly proportioned and that God permitted it. The stability trial appears nowhere in the written account.",
+      "through_line_state": "Carried out of the room and left in the dark, still unrecorded.",
+      "shots": [
+        "ECU overhead — the verdict written out, short, final",
+        "MEDIUM lateral — the record book closing",
+        "CU high — the shelf it is filed onto, among identical spines",
+        "MEDIUM low — the lion lid carried out through a doorway and set down in an unlit passage",
+        "WIDE low — the empty chamber after everyone has left, one candle guttering"
+      ],
+      "assets_used": [
+        "warroom",
+        "ledger",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 28,
+      "arc_role": "build",
+      "location": "wreck",
+      "vo_line": "Then the Baltic does something strange: its water is far too cold and fresh for the shipworm that devours wooden wrecks everywhere else. So she does not rot at all, only waits.",
+      "through_line_state": "Silt-sealed and intact — preserved by the thing that drowned her.",
+      "shots": [
+        "WIDE high — the wreck settling into silt, light failing above",
+        "ECU — the lion lid going grey under a slow fall of sediment",
+        "CU lateral — timber grain intact under a thin skin of mud",
+        "MEDIUM low — the hull whole in the dark, decks still standing",
+        "WIDE lateral — three centuries compressed: silt deepening, seasons passing above"
+      ],
+      "assets_used": [
+        "wreck",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 29,
+      "arc_role": "build",
+      "location": "salvagebarge",
+      "vo_line": "On the twenty-fourth of April, nineteen sixty-one, she breaks the surface again after three hundred and thirty-three years. Over ninety-eight percent of her timber is original, lion lids included.",
+      "through_line_state": "Lifted, streaming water, the gold still legible.",
+      "shots": [
+        "WIDE low — cables coming taut between pontoons, water boiling",
+        "MEDIUM lateral — the black hull breaking the surface, mud sheeting off",
+        "ECU — the lion lid clearing the water, gold showing through silt",
+        "CU high — press boats and cameras crowding the cordon",
+        "WIDE high — the whole wreck afloat again, dwarfing the barges around it"
+      ],
+      "assets_used": [
+        "salvagebarge",
+        "wreck",
+        "lionlid"
+      ]
+    },
+    {
+      "n": 30,
+      "arc_role": "payoff",
+      "location": "museumhall",
+      "vo_line": "She now has her own museum and draws a million visitors a year, more than any warship that won a battle. The silence cost thirty lives and bought four centuries of fame.",
+      "through_line_state": "Under museum glass, lit and labelled — the object that sank her, preserved.",
+      "shots": [
+        "WIDE low — the ship in a dim hall, lit from below, five storeys of it",
+        "MEDIUM lateral — visitors on walkways, tiny against the hull",
+        "ECU — the lion lid behind glass, gold still readable, a label beneath it",
+        "CU high — a row of gun ports, all closed now, from the top gallery",
+        "WIDE high — the hall from above, the crowd flowing around the hull"
+      ],
+      "assets_used": [
+        "museumhall",
+        "lionlid"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.britannica.com/topic/Vasa-warship",
+    "https://en.wikipedia.org/wiki/Vasa_(ship)",
+    "https://www.vasamuseet.se/en/explore/vasa-history/timeline",
+    "https://www.vasamuseet.se/en/explore/vasa-history/machine-of-war",
+    "https://en.wikipedia.org/wiki/Vasa_Museum",
+    "https://en.wikipedia.org/wiki/Vasa_syndrome",
+    "https://www.simscale.com/blog/vasa-ship-sank/",
+    "https://allthatsinteresting.com/vasa-ship"
+  ]
+}
