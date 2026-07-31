@@ -249,9 +249,9 @@ export default function Home() {
                 <span className="quiet">Not a subscription.</span>
               </h1>
               <p className="lede">
-                Describe the graphic you need. Get three takes, tune one on a real
-                timeline, and export a real video file — WebM with a real alpha
-                channel, straight onto your edit.
+                Pick the graphic you need, tune it on a real timeline, and drop
+                your own footage underneath it. Export a transparent overlay for
+                your edit, or the finished shot with the footage baked in.
               </p>
               <div className="hero-cta">
                 <Link href="/signup" className="btn btn-primary btn-lg">
@@ -433,8 +433,8 @@ export default function Home() {
                   <div>
                     <h3>A real timeline</h3>
                     <p>
-                      Five layers, per-clip in and out frames, and a playhead that
-                      lands on the frame you mean.
+                      Every composition breaks into named layers with their own
+                      in-frames, and a playhead that lands on the frame you mean.
                     </p>
                   </div>
                 </li>
