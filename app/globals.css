@@ -1335,6 +1335,11 @@ h3 {
   border-radius: var(--r-panel);
   overflow: hidden;
   display: grid;
+  /* Explicit minmax(0, 1fr) tracks: an implicit `auto` track would size to the
+     canvas's intrinsic 1080px, so max-height:100% would resolve against that
+     and the bottom of the frame — where the lower third sits — got clipped. */
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
 }
 
