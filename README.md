@@ -27,14 +27,36 @@ GPU inference means there is nothing to meter, so exports can be free.
 | Route     | What it is                                                   |
 | --------- | ------------------------------------------------------------ |
 | `/`       | Landing page — the argument, presets, editor, export formats |
-| `/signup` | Sign-up, which hands off to the product prototype            |
+| `/signup` | Sign-up, which hands off into the editor                     |
+| `/app`    | **The actual product** — working editor and exporter         |
+
+### The editor is real
+
+`/app` is not a mockup. It is a working motion-graphics tool:
+
+- **Five presets** — Lower Third, Subscribe Bump, Section Card, End Screen,
+  Intro Logo — each a real composition with layered, staggered animation.
+- **A deterministic canvas renderer.** Every frame is a pure function of
+  `(frameIndex, props, brand)`. Same input, same pixels, every run.
+- **Live editing** of text content and brand colours, with the brand kit
+  persisted to `localStorage` and shared across every preset.
+- **Scrubbable timeline** with per-layer clips and a playhead.
+- **Real exports**, produced in the browser:
+  - **PNG sequence (ZIP)** — true alpha, one PNG per frame. The ZIP is written
+    by hand using the STORE method with pinned timestamps, so byte-identical
+    input produces a byte-identical archive.
+  - **WebM** via `MediaRecorder`, frame-stepped rather than wall-clock timed.
+  - **Single frame PNG** with alpha.
+
+There is no backend, no upload, and no export limit — which is the whole point.
+Rendering HTML and canvas costs nothing per frame, so there is nothing to meter.
 
 ### About the sign-up
 
-It is a **prototype gate, not real auth**. It asks for an email only — no
-password is ever requested — validates the format client-side, and hands off to
-the Flowstep prototype. Nothing is stored, transmitted, or sent to any backend,
-and the page says so in plain language. There is no database and no API route.
+It is a **front door, not real auth**. It asks for an email only — no password
+is ever requested — validates the format client-side, and opens the editor.
+Nothing is stored, transmitted, or sent to any backend, and the page says so in
+plain language. There is no database and no API route.
 
 ## Design
 

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PRODUCT_URL } from "../config";
 
-const HANDOFF_MS = 2000;
+const APP_URL = "/app";
+const HANDOFF_MS = 1600;
 
 const INCLUDED = [
   { name: "Lower Third", t: "3.5s", color: "var(--track-text)" },
@@ -27,7 +27,7 @@ export default function SignUp() {
   useEffect(() => {
     if (!handoff) return;
     const t = window.setTimeout(() => {
-      window.location.href = PRODUCT_URL;
+      window.location.href = APP_URL;
     }, HANDOFF_MS);
     return () => window.clearTimeout(t);
   }, [handoff]);
@@ -62,12 +62,12 @@ export default function SignUp() {
           </p>
           <p className="mono" style={{ marginTop: 18 }}>
             Not redirecting?{" "}
-            <a
-              href={PRODUCT_URL}
+            <Link
+              href={APP_URL}
               style={{ color: "var(--lime)", borderBottom: "1px solid var(--lime)" }}
             >
               Open Bumper
-            </a>
+            </Link>
           </p>
         </div>
       </main>
@@ -119,16 +119,14 @@ export default function SignUp() {
           </form>
 
           <p className="auth-note">
-            PROTOTYPE — this is a demo sign-up for a concept product. No account
-            is created, no password is asked for, and nothing you type is stored
-            or sent anywhere. Continuing opens the Bumper prototype.
+            NO ACCOUNTS YET — Bumper runs entirely in your browser, so there is
+            nothing to sign into. No password is asked for and nothing you type
+            is stored or sent anywhere. Continuing opens the editor.
           </p>
 
           <p className="auth-foot">
             Curious first?{" "}
-            <a href={PRODUCT_URL} target="_blank" rel="noreferrer">
-              Skip and open the prototype
-            </a>
+            <Link href={APP_URL}>Skip and open the editor</Link>
           </p>
         </div>
       </div>

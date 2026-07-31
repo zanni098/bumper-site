@@ -460,8 +460,8 @@ export default function Home() {
               bill to pass on to you.
             </p>
             <div className="hero-cta">
-              <Link href="/signup" className="btn btn-primary btn-lg">
-                Create your workspace
+              <Link href="/app" className="btn btn-primary btn-lg">
+                Open the editor
               </Link>
               <a
                 href={PRODUCT_URL}
@@ -469,7 +469,7 @@ export default function Home() {
                 rel="noreferrer"
                 className="btn btn-lg"
               >
-                Open the prototype
+                See the Flowstep file
               </a>
             </div>
           </div>
@@ -477,8 +477,9 @@ export default function Home() {
           <footer className="footer">
             <span>BUMPER · RENDERED WITH HYPERFRAMES · NO GPU INFERENCE</span>
             <nav>
+              <Link href="/app">EDITOR</Link>
               <a href={PRODUCT_URL} target="_blank" rel="noreferrer">
-                PROTOTYPE
+                FLOWSTEP PROTOTYPE
               </a>
               <a href={CANVAS_URL} target="_blank" rel="noreferrer">
                 FLOWSTEP CANVAS
