@@ -702,6 +702,46 @@ h3 {
   gap: 16px;
 }
 
+.preset-more {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.preset-more li {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 13px 2px;
+  border-bottom: 1px solid var(--line);
+}
+
+.preset-more strong {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.preset-more span {
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.preset-more .d {
+  font-family: var(--font-mono), monospace;
+  font-size: 11.5px;
+  color: var(--ink-3);
+}
+
+@media (max-width: 620px) {
+  .preset-more li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .preset-more span:not(.d) {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 980px) {
   .presets {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1632,6 +1672,191 @@ h3 {
   font-size: 10.5px;
   color: #ff5c5c;
   line-height: 1.5;
+}
+
+/* --------------------------------------------------------------- footage */
+
+.ed-canvas[data-drop="true"] {
+  border-color: var(--lime);
+}
+
+.ed-dropzone {
+  position: absolute;
+  inset: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-panel);
+  background: color-mix(in srgb, #0b0b0d 55%, transparent);
+  color: var(--ink-2);
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+  transition: border-color 0.16s, background 0.16s;
+}
+
+.ed-dropzone:hover {
+  border-color: var(--lime);
+  background: color-mix(in srgb, #0b0b0d 70%, transparent);
+}
+
+.ed-dropzone strong {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.ed-dropzone span {
+  font-size: 11px;
+  color: var(--ink-2);
+}
+
+.ed-dropzone .ed-dim {
+  color: var(--ink-3);
+}
+
+.ed-dropveil {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--lime) 12%, transparent);
+  border: 2px solid var(--lime);
+  border-radius: var(--r-panel);
+  color: var(--lime);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.ed-media {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 8px;
+  align-items: center;
+  padding: 9px 10px;
+  background: var(--raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+}
+
+.ed-media-kind {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--lime-ink);
+  background: var(--lime);
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+
+.ed-media-name {
+  font-size: 12px;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ed-media .ed-dim {
+  grid-column: 1 / -1;
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.ed-seg {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  overflow: hidden;
+}
+
+.ed-seg button {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--line);
+  color: var(--ink-3);
+  font-size: 10.5px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.ed-seg button:last-child {
+  border-right: 0;
+}
+
+.ed-seg button[data-on="true"] {
+  background: var(--raised);
+  color: var(--ink);
+}
+
+.ed-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ed-slider > span {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+
+.ed-slider code {
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.ed-slider input[type="range"] {
+  width: 100%;
+  accent-color: var(--lime);
+  height: 18px;
+}
+
+.ed-mediabtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ed-check {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  cursor: pointer;
+}
+
+.ed-check[data-disabled="true"] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.ed-check input {
+  accent-color: var(--lime);
+  margin-top: 2px;
+}
+
+.ed-check span {
+  font-size: 12px;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ed-check em {
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
 }
 
 @media (max-width: 1100px) {

@@ -2,18 +2,24 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PRESETS } from "@/lib/bumper/presets";
 
 const APP_URL = "/app";
 const HANDOFF_MS = 1600;
 
-const INCLUDED = [
-  { name: "Lower Third", t: "3.5s", color: "var(--track-text)" },
-  { name: "Subscribe Bump", t: "2.0s", color: "var(--track-shape)" },
-  { name: "Section Card", t: "2.5s", color: "var(--track-media)" },
-  { name: "End Screen", t: "8.0s", color: "var(--track-audio)" },
-  { name: "Swipe Transition", t: "0.8s", color: "var(--track-text)" },
-  { name: "Intro Logo", t: "4.0s", color: "var(--track-shape)" },
+const TRACK_COLORS = [
+  "var(--track-text)",
+  "var(--track-shape)",
+  "var(--track-media)",
+  "var(--track-audio)",
 ];
+
+/** Read straight from the engine, so this list is what actually ships. */
+const INCLUDED = PRESETS.map((p, i) => ({
+  name: p.name,
+  t: `${p.duration.toFixed(1)}s`,
+  color: TRACK_COLORS[i % TRACK_COLORS.length],
+}));
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -134,7 +140,7 @@ export default function SignUp() {
       <aside className="auth-aside">
         <div className="aside-caption">
           <span>In your workspace</span>
-          <span>6 presets</span>
+          <span>{PRESETS.length} presets</span>
         </div>
 
         <ul className="aside-list">
@@ -154,20 +160,26 @@ export default function SignUp() {
 
         <ul className="aside-list">
           <li>
-            WebM · VP9 + alpha
+            PNG sequence · ZIP
             <span className="t" style={{ color: "var(--track-audio)" }}>
-              4.2 MB
+              alpha
             </span>
           </li>
           <li>
-            ProRes 4444
+            WebM · VP9
             <span className="t" style={{ color: "var(--track-audio)" }}>
-              84 MB
+              alpha
             </span>
           </li>
           <li>
-            MP4 · H.264
-            <span className="t">2.8 MB</span>
+            Single frame · PNG
+            <span className="t" style={{ color: "var(--track-audio)" }}>
+              alpha
+            </span>
+          </li>
+          <li>
+            Your own footage, baked in
+            <span className="t">local</span>
           </li>
         </ul>
       </aside>

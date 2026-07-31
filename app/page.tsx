@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { PRESETS } from "@/lib/bumper/presets";
 import { CANVAS_URL, PRODUCT_URL, REPO_URL } from "./config";
 
 const TICKS = [
@@ -83,10 +84,14 @@ function Stage() {
   );
 }
 
-const PRESETS = [
+/**
+ * Six presets get bespoke thumbnails; the rest are listed by name. Both lists
+ * are keyed off the real PRESETS array in the engine, so the site can never
+ * advertise something the editor does not ship.
+ */
+const FEATURED_ART: { id: string; art: React.ReactNode }[] = [
   {
-    name: "Lower Third",
-    d: "3.5s",
+    id: "lower-third",
     art: (
       <span className="mini-lt">
         <i />
@@ -97,10 +102,9 @@ const PRESETS = [
       </span>
     ),
   },
-  { name: "Subscribe Bump", d: "2.0s", art: <span className="mini-sub">SUBSCRIBE</span> },
+  { id: "subscribe", art: <span className="mini-sub">SUBSCRIBE</span> },
   {
-    name: "Section Card",
-    d: "2.5s",
+    id: "section-card",
     art: (
       <span className="mini-card">
         <span className="k">CHAPTER 02</span>
@@ -112,8 +116,7 @@ const PRESETS = [
     ),
   },
   {
-    name: "End Screen",
-    d: "8.0s",
+    id: "end-screen",
     art: (
       <span className="mini-end">
         <span className="v" />
@@ -122,9 +125,18 @@ const PRESETS = [
       </span>
     ),
   },
-  { name: "Swipe Transition", d: "0.8s", art: <span className="mini-swipe" /> },
-  { name: "Intro Logo", d: "4.0s", art: <span className="mini-logo">N</span> },
+  { id: "swipe", art: <span className="mini-swipe" /> },
+  { id: "intro-logo", art: <span className="mini-logo">N</span> },
 ];
+
+const FEATURED = FEATURED_ART.map((f) => ({
+  ...f,
+  preset: PRESETS.find((p) => p.id === f.id)!,
+})).filter((f) => f.preset);
+
+const MORE_PRESETS = PRESETS.filter(
+  (p) => !FEATURED_ART.some((f) => f.id === p.id)
+);
 
 const CLIPS = [
   { name: "Name", color: "var(--track-text)", left: "6%", right: "0%" },
@@ -134,11 +146,36 @@ const CLIPS = [
   { name: "Whoosh", color: "var(--track-audio)", left: "0%", right: "83%" },
 ];
 
+/** What the editor actually writes today. Sizes are from a 105-frame render. */
 const FORMATS = [
-  { chip: "WEBM", name: "WebM · VP9 + alpha", note: "Drops straight onto your timeline.", size: "4.2 MB", alpha: true },
-  { chip: "MP4", name: "MP4 · H.264", note: "Universal playback, solid background.", size: "2.8 MB", alpha: false },
-  { chip: "PROR", name: "ProRes 4444", note: "Broadcast quality with alpha.", size: "84 MB", alpha: true },
-  { chip: "PNG", name: "PNG sequence", note: "105 numbered stills for full control.", size: "31 MB", alpha: true },
+  {
+    chip: "PNG",
+    name: "PNG sequence · ZIP",
+    note: "Numbered stills, true alpha, imports into any NLE.",
+    size: "7.0 MB",
+    alpha: true,
+  },
+  {
+    chip: "WEBM",
+    name: "WebM · VP9",
+    note: "One file, straight onto your timeline.",
+    size: "1.4 MB",
+    alpha: true,
+  },
+  {
+    chip: "PNG",
+    name: "Single frame · PNG",
+    note: "One still for a thumbnail or a mock-up.",
+    size: "84 KB",
+    alpha: true,
+  },
+  {
+    chip: "BAKED",
+    name: "Your footage, baked in",
+    note: "Drop a clip in and export the finished shot instead of an overlay.",
+    size: "varies",
+    alpha: false,
+  },
 ];
 
 export default function Home() {
@@ -323,23 +360,33 @@ export default function Home() {
           <div className="section-head">
             <h2 className="reveal">Every piece a video actually needs.</h2>
             <p className="sub reveal">
-              Start from a preset or describe your own. Each one is a composition
-              with real layers, real timing and real easing — not a template you
-              fill in.
+              {PRESETS.length} presets, each a composition with real layers, real
+              timing and real easing — not a template you fill in. Drop in your
+              own footage and every one of them lays over it.
             </p>
           </div>
 
           <div className="presets">
-            {PRESETS.map((p) => (
-              <article className="preset reveal" key={p.name}>
-                <div className="preset-thumb">{p.art}</div>
+            {FEATURED.map(({ id, art, preset }) => (
+              <article className="preset reveal" key={id}>
+                <div className="preset-thumb">{art}</div>
                 <div className="preset-foot">
-                  <span>{p.name}</span>
-                  <span className="d">{p.d}</span>
+                  <span>{preset.name}</span>
+                  <span className="d">{preset.duration.toFixed(1)}s</span>
                 </div>
               </article>
             ))}
           </div>
+
+          <ul className="preset-more reveal">
+            {MORE_PRESETS.map((p) => (
+              <li key={p.id}>
+                <strong>{p.name}</strong>
+                <span>{p.blurb}</span>
+                <span className="d">{p.duration.toFixed(1)}s</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ---------------------------------------------------------- editor */}

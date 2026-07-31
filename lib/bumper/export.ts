@@ -12,8 +12,15 @@
  * determinism. Timestamps are pinned so identical input yields identical bytes.
  */
 
-import { FPS, HEIGHT, WIDTH, renderFrame, type Brand, type Fonts, type Preset, type Props } from "./engine";
+import { FPS, HEIGHT, WIDTH, renderFrame, type Backdrop, type Brand, type Fonts, type Preset, type Props } from "./engine";
 import { framesOf } from "./engine";
+import {
+  backdropFor,
+  seekTo,
+  timeForFrame,
+  type MediaSettings,
+  type MediaSource,
+} from "./media";
 
 /* -------------------------------------------------------------- crc32 */
 
@@ -154,8 +161,30 @@ export interface ExportOpts {
   props: Props;
   brand: Brand;
   fonts: Fonts;
+  /** The user's footage. Only composited when `burn` is on. */
+  media?: MediaSource | null;
+  mediaSettings?: MediaSettings;
+  /**
+   * Bake the media into the output. Off means a transparent overlay to drop
+   * onto a timeline; on means a finished clip you can post as-is.
+   */
+  burn?: boolean;
   onProgress?: (done: number, total: number) => void;
   signal?: { cancelled: boolean };
+}
+
+/**
+ * Resolves the backdrop for one frame, seeking video to the exact clip time
+ * first so the output is timed by frame index rather than by playback.
+ */
+async function backdropAt(opts: ExportOpts, frame: number): Promise<Backdrop | undefined> {
+  const { media, mediaSettings, burn } = opts;
+  if (!burn || !media || !mediaSettings) return undefined;
+  if (media.kind === "video") {
+    const video = media.el as HTMLVideoElement;
+    await seekTo(video, timeForFrame(media, mediaSettings, frame, FPS));
+  }
+  return backdropFor(media, mediaSettings);
 }
 
 /* ------------------------------------------------------- png sequence */
@@ -175,7 +204,7 @@ export async function exportPngSequence(opts: ExportOpts): Promise<Blob> {
 
   for (let f = 0; f < total; f++) {
     if (signal?.cancelled) throw new Error("cancelled");
-    renderFrame(ctx, preset, f, props, brand, fonts);
+    renderFrame(ctx, preset, f, props, brand, fonts, await backdropAt(opts, f));
     const blob = await toBlob(canvas, "image/png");
     const buf = new Uint8Array(await blob.arrayBuffer());
     entries.push({ name: `${base}_${String(f).padStart(4, "0")}.png`, data: buf });
@@ -244,18 +273,45 @@ export async function exportWebm(opts: ExportOpts): Promise<Blob> {
     recorder.onstop = () => resolve(new Blob(chunks, { type: "video/webm" }));
   });
 
+  /**
+   * MediaRecorder timestamps frames by wall clock, so burnt-in video is played
+   * rather than seeked — a per-frame seek would stretch the clip's duration.
+   * The PNG sequence keeps the deterministic seek path for anyone who needs
+   * frame-exact output.
+   */
+  const live = Boolean(opts.burn && opts.media?.kind === "video");
+  const video = live ? (opts.media!.el as HTMLVideoElement) : null;
+  const liveBackdrop =
+    opts.burn && opts.media && opts.mediaSettings
+      ? backdropFor(opts.media, opts.mediaSettings)
+      : undefined;
+
+  if (video && opts.mediaSettings) {
+    await seekTo(video, opts.mediaSettings.start);
+    try {
+      await video.play();
+    } catch {
+      /* autoplay refusal falls back to the frame that is already decoded */
+    }
+  }
+
   recorder.start();
 
   const frameMs = 1000 / FPS;
-  for (let f = 0; f < total; f++) {
-    if (signal?.cancelled) {
-      recorder.stop();
-      throw new Error("cancelled");
+  try {
+    for (let f = 0; f < total; f++) {
+      if (signal?.cancelled) {
+        recorder.stop();
+        throw new Error("cancelled");
+      }
+      const backdrop = live ? liveBackdrop : await backdropAt(opts, f);
+      renderFrame(ctx, preset, f, props, brand, fonts, backdrop);
+      track.requestFrame?.();
+      onProgress?.(f + 1, total);
+      await new Promise((r) => setTimeout(r, frameMs));
     }
-    renderFrame(ctx, preset, f, props, brand, fonts);
-    track.requestFrame?.();
-    onProgress?.(f + 1, total);
-    await new Promise((r) => setTimeout(r, frameMs));
+  } finally {
+    video?.pause();
   }
 
   await new Promise((r) => setTimeout(r, 120));
@@ -276,6 +332,6 @@ export async function exportStill(
   canvas.height = HEIGHT;
   const ctx = canvas.getContext("2d", { alpha: true });
   if (!ctx) throw new Error("Canvas 2D unavailable in this browser.");
-  renderFrame(ctx, preset, frame, props, brand, fonts);
+  renderFrame(ctx, preset, frame, props, brand, fonts, await backdropAt(opts, frame));
   return toBlob(canvas, "image/png");
 }

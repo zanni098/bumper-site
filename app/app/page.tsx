@@ -24,6 +24,16 @@ import {
   slug,
   webmSupported,
 } from "@/lib/bumper/export";
+import {
+  ACCEPTED_MEDIA,
+  DEFAULT_MEDIA_SETTINGS,
+  backdropFor,
+  loadMedia,
+  mediaLabel,
+  timeForFrame,
+  type MediaSettings,
+  type MediaSource,
+} from "@/lib/bumper/media";
 
 type ExportKind = "png" | "webm" | "still";
 
@@ -48,10 +58,32 @@ export default function Editor() {
   const [brand, setBrand] = useState<Brand>(DEFAULT_BRAND);
   const [frame, setFrame] = useState(0);
   const [playing, setPlaying] = useState(true);
-  const [alphaView, setAlphaView] = useState(true);
   const [exporting, setExporting] = useState<ExportState | null>(null);
   const [error, setError] = useState("");
   const [note, setNote] = useState("");
+
+  /* ------------------------------------------------------------- footage */
+
+  const [media, setMedia] = useState<MediaSource | null>(null);
+  const [mediaSettings, setMediaSettings] = useState<MediaSettings>(
+    DEFAULT_MEDIA_SETTINGS
+  );
+  const [showMedia, setShowMedia] = useState(false);
+  const [burn, setBurn] = useState(true);
+  const [dragging, setDragging] = useState(false);
+  const [loadingMedia, setLoadingMedia] = useState(false);
+  /** Bumped when a video decodes a new frame, to force a repaint while paused. */
+  const [mediaTick, setMediaTick] = useState(0);
+
+  const mediaRef = useRef<MediaSource | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * MediaRecorder does not exist during prerender, so probing it while
+   * rendering makes the server and client disagree. Resolve it after mount.
+   */
+  const [canWebm, setCanWebm] = useState(false);
+  useEffect(() => setCanWebm(webmSupported()), []);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const probeRef = useRef<HTMLSpanElement>(null);
@@ -98,14 +130,99 @@ export default function Editor() {
     };
   }, []);
 
+  /* ------------------------------------------------------------- footage */
+
+  const attachMedia = useCallback((next: MediaSource | null) => {
+    mediaRef.current?.dispose();
+    mediaRef.current = next;
+    setMedia(next);
+  }, []);
+
+  const acceptFile = useCallback(
+    async (file: File | undefined | null) => {
+      if (!file) return;
+      setError("");
+      setNote("");
+      setLoadingMedia(true);
+      try {
+        const next = await loadMedia(file);
+        attachMedia(next);
+        setMediaSettings({ ...DEFAULT_MEDIA_SETTINGS });
+        setShowMedia(true);
+        setBurn(true);
+        setNote(`${next.name} loaded · ${mediaLabel(next)} · stays on your device.`);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Could not load that file.");
+      } finally {
+        setLoadingMedia(false);
+      }
+    },
+    [attachMedia]
+  );
+
+  /* release the object URL when the editor goes away */
+  useEffect(() => {
+    return () => {
+      mediaRef.current?.dispose();
+      mediaRef.current = null;
+    };
+  }, []);
+
+  /* a decoded video frame is a reason to repaint, even when paused */
+  useEffect(() => {
+    if (!media || media.kind !== "video") return;
+    const video = media.el as HTMLVideoElement;
+    const bump = () => setMediaTick((t) => t + 1);
+    video.addEventListener("seeked", bump);
+    video.addEventListener("loadeddata", bump);
+    return () => {
+      video.removeEventListener("seeked", bump);
+      video.removeEventListener("loadeddata", bump);
+    };
+  }, [media]);
+
+  /* keep the video element lined up with the composition frame */
+  useEffect(() => {
+    if (!media || media.kind !== "video") return;
+    const video = media.el as HTMLVideoElement;
+    if (!showMedia || exporting) {
+      if (!video.paused) video.pause();
+      return;
+    }
+    const expected = timeForFrame(media, mediaSettings, frame, FPS);
+    if (playing) {
+      if (video.paused) void video.play().catch(() => {});
+      // Let it run at its own rate; only correct real drift.
+      if (Math.abs(video.currentTime - expected) > 0.35) video.currentTime = expected;
+    } else {
+      if (!video.paused) video.pause();
+      if (Math.abs(video.currentTime - expected) > 0.02) video.currentTime = expected;
+    }
+  }, [media, showMedia, playing, frame, mediaSettings, exporting]);
+
+  const backdrop = useMemo(
+    () => (showMedia && media ? backdropFor(media, mediaSettings) : undefined),
+    [showMedia, media, mediaSettings]
+  );
+
   /* draw whenever anything changes */
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
-    renderFrame(ctx, preset, Math.min(frame, totalFrames - 1), props, brand, fonts);
-  }, [preset, frame, props, brand, fonts, totalFrames]);
+    renderFrame(
+      ctx,
+      preset,
+      Math.min(frame, totalFrames - 1),
+      props,
+      brand,
+      fonts,
+      backdrop
+    );
+    // mediaTick is a repaint signal, not a value the render reads.
+    void mediaTick;
+  }, [preset, frame, props, brand, fonts, totalFrames, backdrop, mediaTick]);
 
   /* playback */
   useEffect(() => {
@@ -173,15 +290,20 @@ export default function Editor() {
       setNote("");
       cancelRef.current = { cancelled: false };
       const base = slug(preset.name);
+      const baked = burn && !!media;
       const opts = {
         preset,
         props,
         brand,
         fonts,
+        media,
+        mediaSettings,
+        burn: baked,
         signal: cancelRef.current,
         onProgress: (done: number, total: number) =>
           setExporting({ kind, done, total }),
       };
+      const alphaNote = baked ? "footage baked in" : "alpha preserved";
 
       try {
         setPlaying(false);
@@ -190,12 +312,12 @@ export default function Editor() {
         if (kind === "still") {
           const blob = await exportStill(opts, frame);
           download(blob, `${base}_${String(frame).padStart(4, "0")}.png`);
-          setNote(`Saved frame ${frame} as PNG with alpha.`);
+          setNote(`Saved frame ${frame} as PNG · ${alphaNote}.`);
         } else if (kind === "png") {
           const blob = await exportPngSequence(opts);
           download(blob, `${base}-png-sequence.zip`);
           setNote(
-            `Rendered ${totalFrames} frames · ${(blob.size / 1e6).toFixed(1)} MB · alpha preserved.`
+            `Rendered ${totalFrames} frames · ${(blob.size / 1e6).toFixed(1)} MB · ${alphaNote}.`
           );
         } else {
           const blob = await exportWebm(opts);
@@ -211,7 +333,7 @@ export default function Editor() {
         setExporting(null);
       }
     },
-    [preset, props, brand, fonts, totalFrames, frame]
+    [preset, props, brand, fonts, totalFrames, frame, media, mediaSettings, burn]
   );
 
   const pct = exporting ? Math.round((exporting.done / exporting.total) * 100) : 0;
@@ -223,6 +345,16 @@ export default function Editor() {
       {/* hidden probes so the canvas can use the same fonts as the page */}
       <span ref={probeRef} className="probe" style={{ fontFamily: "var(--font-display)" }} />
       <span ref={monoProbeRef} className="probe" style={{ fontFamily: "var(--font-mono)" }} />
+      <input
+        ref={fileRef}
+        type="file"
+        accept={ACCEPTED_MEDIA}
+        className="probe"
+        onChange={(e) => {
+          void acceptFile(e.target.files?.[0]);
+          e.target.value = "";
+        }}
+      />
 
       <header className="ed-top">
         <div className="ed-brandline">
@@ -284,23 +416,55 @@ export default function Editor() {
         {/* ------------------------------------------------------- stage */}
         <main className="ed-stage">
           <div className="ed-stagewrap">
-            <div className={`ed-canvas ${alphaView ? "is-alpha" : "is-video"}`}>
+            <div
+              className={`ed-canvas ${showMedia ? "is-video" : "is-alpha"}`}
+              data-drop={dragging}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragging(true);
+              }}
+              onDragLeave={() => setDragging(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragging(false);
+                void acceptFile(e.dataTransfer.files?.[0]);
+              }}
+            >
               <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} />
+
+              {showMedia && !media && (
+                <button
+                  className="ed-dropzone"
+                  onClick={() => fileRef.current?.click()}
+                  type="button"
+                >
+                  <strong>Drop a photo or video here</strong>
+                  <span className="mono">
+                    or click to browse · MP4, WebM, MOV, PNG, JPG
+                  </span>
+                  <span className="mono ed-dim">
+                    Nothing uploads. It is composited in your browser.
+                  </span>
+                </button>
+              )}
+
+              {dragging && <div className="ed-dropveil mono">Release to place your footage</div>}
+
               <div className="ed-toggle">
                 <button
-                  data-on={alphaView}
-                  onClick={() => setAlphaView(true)}
+                  data-on={!showMedia}
+                  onClick={() => setShowMedia(false)}
                   className="mono"
                 >
                   Alpha
                 </button>
                 <span />
                 <button
-                  data-on={!alphaView}
-                  onClick={() => setAlphaView(false)}
+                  data-on={showMedia}
+                  onClick={() => setShowMedia(true)}
                   className="mono"
                 >
-                  Over video
+                  {media ? "Over footage" : "Over video"}
                 </button>
               </div>
             </div>
@@ -401,6 +565,104 @@ export default function Editor() {
           </section>
 
           <section>
+            <p className="eyebrow">Your footage</p>
+            {!media ? (
+              <>
+                <button
+                  className="btn btn-block"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={loadingMedia}
+                >
+                  {loadingMedia ? "Decoding…" : "Add photo or video"}
+                  <em className="mono">local</em>
+                </button>
+                <p className="ed-help">
+                  Drop a clip on the canvas to lay this graphic over it. The file
+                  never leaves your browser.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="ed-media">
+                  <span className="ed-media-kind mono">{media.kind}</span>
+                  <span className="ed-media-name" title={media.name}>
+                    {media.name}
+                  </span>
+                  <span className="mono ed-dim">{mediaLabel(media)}</span>
+                </div>
+
+                <div className="ed-seg">
+                  {(["cover", "contain"] as const).map((f) => (
+                    <button
+                      key={f}
+                      className="mono"
+                      data-on={mediaSettings.fit === f}
+                      onClick={() => setMediaSettings({ ...mediaSettings, fit: f })}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                </div>
+
+                <label className="ed-slider">
+                  <span>
+                    Dim <code className="mono">{Math.round(mediaSettings.dim * 100)}%</code>
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={75}
+                    value={Math.round(mediaSettings.dim * 100)}
+                    onChange={(e) =>
+                      setMediaSettings({
+                        ...mediaSettings,
+                        dim: Number(e.target.value) / 100,
+                      })
+                    }
+                  />
+                </label>
+
+                {media.kind === "video" && media.duration > 0 && (
+                  <label className="ed-slider">
+                    <span>
+                      Start at{" "}
+                      <code className="mono">{mediaSettings.start.toFixed(1)}s</code>
+                    </span>
+                    <input
+                      type="range"
+                      min={0}
+                      max={Math.max(0, media.duration - 0.1) * 10}
+                      value={mediaSettings.start * 10}
+                      onChange={(e) =>
+                        setMediaSettings({
+                          ...mediaSettings,
+                          start: Number(e.target.value) / 10,
+                        })
+                      }
+                    />
+                  </label>
+                )}
+
+                <div className="ed-mediabtns">
+                  <button className="btn" onClick={() => fileRef.current?.click()}>
+                    Replace
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      attachMedia(null);
+                      setShowMedia(false);
+                      setNote("");
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </>
+            )}
+          </section>
+
+          <section>
             <p className="eyebrow">Brand kit</p>
             <p className="ed-help">Set once — every preset picks it up.</p>
             {(
@@ -447,21 +709,39 @@ export default function Editor() {
 
           <section>
             <p className="eyebrow">Export</p>
+
+            <label className="ed-check" data-disabled={!media}>
+              <input
+                type="checkbox"
+                checked={burn && !!media}
+                disabled={!media}
+                onChange={(e) => setBurn(e.target.checked)}
+              />
+              <span>
+                Bake in my footage
+                <em>
+                  {media
+                    ? "Output is a finished clip, not a transparent overlay."
+                    : "Add a photo or video first."}
+                </em>
+              </span>
+            </label>
+
             <button
               className="btn btn-block"
               onClick={() => runExport("png")}
               disabled={!!exporting}
             >
               PNG sequence · ZIP
-              <em className="mono">alpha</em>
+              <em className="mono">{burn && media ? "baked" : "alpha"}</em>
             </button>
             <button
               className="btn btn-block"
               onClick={() => runExport("webm")}
-              disabled={!!exporting || !webmSupported()}
+              disabled={!!exporting || !canWebm}
             >
               WebM video
-              <em className="mono">{webmSupported() ? "vp9" : "n/a"}</em>
+              <em className="mono">{canWebm ? "vp9" : "n/a"}</em>
             </button>
             <button
               className="btn btn-block"
@@ -469,7 +749,7 @@ export default function Editor() {
               disabled={!!exporting}
             >
               This frame · PNG
-              <em className="mono">alpha</em>
+              <em className="mono">{burn && media ? "baked" : "alpha"}</em>
             </button>
 
             {exporting && (

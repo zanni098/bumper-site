@@ -182,6 +182,57 @@ export function tracked(
   return total;
 }
 
+/**
+ * Break `text` into lines that each fit within `maxWidth` at the font currently
+ * set on the context. Words longer than the line are left intact rather than
+ * hyphenated — a broken word reads worse than a slightly wide line.
+ */
+export function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number
+): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+  const lines: string[] = [];
+  let line = words[0];
+  for (let i = 1; i < words.length; i++) {
+    const candidate = `${line} ${words[i]}`;
+    if (ctx.measureText(candidate).width <= maxWidth) {
+      line = candidate;
+    } else {
+      lines.push(line);
+      line = words[i];
+    }
+  }
+  lines.push(line);
+  return lines;
+}
+
+/**
+ * A backing plate behind text. Over footage, type needs something solid to sit
+ * on — the design system bans drop shadows, so legibility comes from a plate
+ * rather than a blur.
+ */
+export function plate(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+  fill = "#0B0B0DE6"
+) {
+  ctx.fillStyle = fill;
+  roundRect(ctx, x, y, w, h, r);
+  ctx.fill();
+}
+
+/** Linear interpolation, used constantly by the presets. */
+export function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
 export function framesOf(preset: Preset) {
   return Math.round(preset.duration * FPS);
 }
@@ -196,6 +247,13 @@ export function timecode(frame: number) {
   return `${hh}:${mm}:${ss}:${ff}`;
 }
 
+/**
+ * Paints whatever sits under the graphic — the user's photo or video frame.
+ * Called after the canvas is cleared and before the preset draws, so the
+ * graphic always composites on top. Omit it and the frame stays transparent.
+ */
+export type Backdrop = (ctx: CanvasRenderingContext2D) => void;
+
 /** Render one frame. Clears to full transparency first — this is what keeps alpha. */
 export function renderFrame(
   ctx: CanvasRenderingContext2D,
@@ -203,9 +261,15 @@ export function renderFrame(
   frame: number,
   props: Props,
   brand: Brand,
-  fonts: Fonts
+  fonts: Fonts,
+  backdrop?: Backdrop
 ) {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
+  if (backdrop) {
+    ctx.save();
+    backdrop(ctx);
+    ctx.restore();
+  }
   ctx.save();
   ctx.textBaseline = "alphabetic";
   preset.draw({
