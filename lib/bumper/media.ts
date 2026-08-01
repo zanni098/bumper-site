@@ -102,9 +102,20 @@ export function loadMedia(file: File): Promise<MediaSource> {
 
     const fail = () => {
       dispose();
+      // Distinguish "this browser has no decoder for that codec" from "this
+      // file is broken". Blaming the file is wrong and unactionable when the
+      // file is a perfectly good H.264 MP4 and the build simply lacks the
+      // proprietary codec — which is true of Chromium-without-codecs and of
+      // some Linux Firefox builds.
+      // A bare `video/mp4` probe answers "maybe" even in builds with no H.264,
+      // so ask about the actual codec string instead.
+      const looksMp4 = /mp4|quicktime/i.test(file.type);
+      const noH264 = video.canPlayType('video/mp4; codecs="avc1.42E01E"') === "";
       reject(
         new Error(
-          `Could not decode ${file.name}. Try an MP4 (H.264) or WebM file.`
+          looksMp4 && noH264
+            ? `This browser has no H.264 decoder, so it cannot open ${file.name}. Chrome and Edge can; some Chromium and Linux builds cannot. A WebM (VP8/VP9) file works everywhere.`
+            : `Could not decode ${file.name}. The file may be damaged or use a codec this browser does not support.`
         )
       );
     };
